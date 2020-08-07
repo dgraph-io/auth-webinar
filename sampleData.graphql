@@ -1,0 +1,14 @@
+mutation {
+  addTodo(input: [
+    {value: "Get a Slash GraphQL account", completed: true},
+    {value: "Deploy a GraphQL backend", completed: true},
+    {value: "Build a React app", completed: false},
+    {value: "Learn more GraphQL", completed: false}
+  ]) {
+    todo {
+      id
+      value
+      completed
+    }
+  }
+}
