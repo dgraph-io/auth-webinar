@@ -14,3 +14,7 @@ npm start
 ```
 
 You'll first need to set the url in `src/index.js` to the Slash GraphQL backend that you deploy.  See the instructions in the blog to get started.
+
+## Dependencies
+
+The UI is vanilla React JS with Apollo client, and the new [React-TodoMVC](https://github.com/sw-yx/react-todomvc) component.
