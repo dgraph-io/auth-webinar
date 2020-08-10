@@ -96,20 +96,15 @@ function App() {
           completed: modifiedTodo.completed,
         },
       },
-
       update(cache, { data }) {
-        const existing = cache.readQuery({ query: GET_TODOS })
-        const modifiedTodos = existing.queryTodo.map((t) => {
-          if (t.id === modifiedTodo.id) {
-            return modifiedTodo
-          } else {
-            return t
-          }
-        })
-        cache.writeQuery({
+        data.updateTodo.todo.map( t => cache.writeQuery({
           query: GET_TODOS,
-          data: { queryTodo: modifiedTodos },
-        })
+          id: t.id,
+          data: {
+            value: t.value,
+            completed: t.completed
+          }
+        }))
       },
     })
 
@@ -117,22 +112,15 @@ function App() {
     del({
       variables: { id },
       update(cache, { data }) {
-        const existingTodos = cache.readQuery({ query: GET_TODOS })
-        const newTodos = existingTodos.queryTodo.filter((t) => t.id !== id)
-        cache.writeQuery({
-          query: GET_TODOS,
-          data: { queryTodo: newTodos },
-        })
+        data.deleteTodo.todo.map(t => cache.data.delete(cache.identify(t)))
       },
     })
 
   const clearCompletedTodos = () =>
     clear({
-      refetchQueries: [
-        {
-          query: GET_TODOS,
-        },
-      ],
+      update(cache, { data }) {
+        data.deleteTodo.todo.map(t => cache.data.delete(cache.identify(t)))
+      }
     })
 
   return (
