@@ -97,14 +97,15 @@ function App() {
         },
       },
       update(cache, { data }) {
-        data.updateTodo.todo.map( t => cache.writeQuery({
-          query: GET_TODOS,
-          id: t.id,
-          data: {
-            value: t.value,
-            completed: t.completed
-          }
-        }))
+        data.updateTodo.todo.map((t) =>
+          cache.modify({
+            id: cache.identify(t),
+            fields: {
+              value: () => t.value,
+              completed: () => t.completed,
+            },
+          })
+        )
       },
     })
 
@@ -112,15 +113,15 @@ function App() {
     del({
       variables: { id },
       update(cache, { data }) {
-        data.deleteTodo.todo.map(t => cache.data.delete(cache.identify(t)))
+        data.deleteTodo.todo.map(t => cache.evict({ id: cache.identify(t) }))
       },
     })
 
   const clearCompletedTodos = () =>
     clear({
       update(cache, { data }) {
-        data.deleteTodo.todo.map(t => cache.data.delete(cache.identify(t)))
-      }
+        data.deleteTodo.todo.map(t => cache.evict({ id: cache.identify(t) }))
+      },
     })
 
   return (
