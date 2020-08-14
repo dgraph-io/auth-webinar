@@ -4,7 +4,7 @@ Todo React App using GraphQL build by Dgraph Labs and powered by [Slash GraphQL]
 
 ![Todo App Screenshot](./SlashGraphQLTodos.png)
 
-Check out this blog post (coming soon) to learn more about getting started with Slash GraphQL, or head over to our [docs](https://graphql.dgraph.io/) to get started.
+Check out this [blog post](https://dgraph.io/blog/post/todo-slash-graphql/) to learn more about getting started with Slash GraphQL, or head over to our [docs](https://graphql.dgraph.io/) to get started.
 
 ## Starting the App
 
