@@ -1,4 +1,4 @@
-# Serverless Authentication + Authorization with Dgraph & Auth0 (August 27th, 2020)
+# Serverless Authentication + Authorization with Dgraph & Auth0 Webinar Resources (August 27th, 2020)
 
 ## Video
 
