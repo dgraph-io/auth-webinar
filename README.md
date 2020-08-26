@@ -1,5 +1,7 @@
 # Serverless Authentication + Authorization with Dgraph & Auth0 Webinar Resources (August 27th, 2020)
 
+
+
 ## Video
 
 Video will be linked here after the webinar.
@@ -17,6 +19,9 @@ Sign up for a free Auth0 account here: https://auth0.com
 [Starting Schema](https://github.com/dgraph-io/auth-webinar/blob/master/schema.graphql)
 
 [Finished Schema](https://github.com/dgraph-io/auth-webinar/blob/master/finished-schema.graphql)
+
+## Mutations (Data)
+[Mutation (Users + Todos)](https://github.com/dgraph-io/auth-webinar/blob/master/sampleData.graphql)
 
 ## Resources
 ### Intro to JWT - JWT.io
