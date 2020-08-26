@@ -13,6 +13,10 @@ Fastest way to get started with Dgraph is to create a free Slash GraphQL account
 
 Sign up for a free Auth0 account here: https://auth0.com
 
+## Schema 
+[Starting Schema](https://github.com/dgraph-io/auth-webinar/blob/master/schema.graphql)
+
+[Finished Schema](https://github.com/dgraph-io/auth-webinar/blob/master/finished-schema.graphql)
 
 ## Resources
 ### Intro to JWT - JWT.io
