@@ -1,14 +1,24 @@
-mutation {
-  addTodo(input: [
-    {value: "Get a Slash GraphQL account", completed: true},
-    {value: "Deploy a GraphQL backend", completed: true},
-    {value: "Build a React app", completed: false},
-    {value: "Learn more GraphQL", completed: false}
+mutation AddTasks {
+  addTask(input: [
+    {title: "Create a database", completed: false, user: {username: "your-email@example.com"}},
+    {title: "Write A Schema", completed: false, user: {username: "your-email@example.com"}},
+    {title: "Put Data In", completed: false, user: {username: "your-email@example.com"}},
+    {title: "Complete Tasks with UI", completed: false, user: {username: "your-email@example.com"}},
+    {title: "Profit!", completed: false, user: {username: "your-email@example.com"}},
+
+    {title: "Walking", completed: false, user: {username: "frodo@dgraph.io"}},
+    {title: "More Walking", completed: false, user: {username: "frodo@dgraph.io"}},
+    {title: "Discard Jewelery", completed: false, user: {username: "frodo@dgraph.io"}},
+
+    {title: "Meet Dad", completed: false, user: {username: "skywalker@dgraph.io"}},
+    {title: "Dismantle Empire", completed: false, user: {username: "skywalker@dgraph.io"}}
   ]) {
-    todo {
-      id
-      value
-      completed
+    numUids
+    task {
+      title
+      user {
+        username
+      }
     }
   }
 }

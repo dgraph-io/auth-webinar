@@ -1,20 +1,31 @@
-# Todo React App powered by Slash GraphQL
+# Serverless Authentication + Authorization with Dgraph & Auth0 Webinar Resources (August 27th, 2020)
 
-Todo React App using GraphQL build by Dgraph Labs and powered by [Slash GraphQL](https://dgraph.io/slash-graphql).
 
-![Todo App Screenshot](./SlashGraphQLTodos.png)
 
-Check out this [blog post](https://dgraph.io/blog/post/todo-slash-graphql/) to learn more about getting started with Slash GraphQL, or head over to our [docs](https://graphql.dgraph.io/) to get started.
+## Video
 
-## Starting the App
+Video will be linked here after the webinar.
 
-```
-npm install
-npm start
-```
+## Prerequesites
 
-You'll first need to set the url in `src/index.js` to the Slash GraphQL backend that you deploy.  See the instructions in the blog to get started.
+### Dgraph
+Fastest way to get started with Dgraph is to create a free Slash GraphQL account: [click here](https://slash.dgraph.io).
 
-## Dependencies
+### Auth0
 
-The UI is vanilla React JS with Apollo client, and the neat [React-TodoMVC](https://github.com/sw-yx/react-todomvc) component.
+Sign up for a free Auth0 account here: https://auth0.com
+
+## Schema 
+[Starting Schema](https://github.com/dgraph-io/auth-webinar/blob/master/schema.graphql)
+
+[Finished Schema](https://github.com/dgraph-io/auth-webinar/blob/master/finished-schema.graphql)
+
+## Mutations (Data)
+[Mutation (Users + Todos)](https://github.com/dgraph-io/auth-webinar/blob/master/sampleData.graphql)
+
+## Resources
+### Intro to JWT - JWT.io
+https://jwt.io/introduction/
+
+### Intro to Dgraph Schema - Dgraph.io
+https://dgraph.io/blog/post/slash-intro-to-schema/
