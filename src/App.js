@@ -1,7 +1,6 @@
 import React from "react"
 import { useQuery, useMutation, gql } from "@apollo/client"
 import { Todos } from "react-todomvc"
-import { useAuth0 } from "@auth0/auth0-react"
 
 import "react-todomvc/dist/todomvc.css"
 
