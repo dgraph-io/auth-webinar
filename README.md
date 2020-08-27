@@ -23,6 +23,21 @@ Sign up for a free Auth0 account here: https://auth0.com
 ## Mutations (Data)
 [Mutation (Users + Todos)](https://github.com/dgraph-io/auth-webinar/blob/master/sampleData.graphql)
 
+## Auth0
+This rule is used to inject the claims needed by Dgraph into the JWT token created by Auth0.
+
+```js
+function (user, context, callback) {
+  const namespace = "https://dgraph.io/jwt/claims";
+  context.idToken[namespace] =
+    {
+      'USER': user.email,
+    };
+  
+  return callback(null, user, context);
+}
+```
+
 ## Resources
 ### Intro to JWT - JWT.io
 https://jwt.io/introduction/
