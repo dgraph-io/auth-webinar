@@ -7,23 +7,40 @@ import {
   InMemoryCache,
   createHttpLink,
 } from "@apollo/client"
+import { setContext } from "@apollo/client/link/context"
 
-const createApolloClient = () => {
+
+const GRAPHQL_ENDPOINT = "https://possessive-peace.us-west-2.aws.cloud.dgraph.io/graphql";
+
+const AuthorizedApolloProvider = ({ children }) => {
+
   const httpLink = createHttpLink({
-    uri: "https://urbane-powder-1224.us-west-2.aws.cloud.dgraph.io/graphql",
+    uri: GRAPHQL_ENDPOINT,
   })
 
-  return new ApolloClient({
-    link: httpLink,
+  const authLink = setContext(async (_, { headers }) => {
+
+    return {
+      headers: {
+        ...headers,
+        "X-Auth-Token": "",
+      },
+    }
+  })
+
+  const apolloClient = new ApolloClient({
+    link: authLink.concat(httpLink),
     cache: new InMemoryCache(),
   })
+
+  return <ApolloProvider client={apolloClient}>{children}</ApolloProvider>
 }
 
 ReactDOM.render(
-  <ApolloProvider client={createApolloClient()}>
+  <AuthorizedApolloProvider>
     <React.StrictMode>
       <App />
     </React.StrictMode>
-  </ApolloProvider>,
+  </AuthorizedApolloProvider>,
   document.getElementById("root")
 )
