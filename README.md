@@ -24,6 +24,11 @@ Sign up for a free Auth0 account here: https://auth0.com
 [Mutation (Users + Todos)](https://github.com/dgraph-io/auth-webinar/blob/master/sampleData.graphql)
 
 ## Auth0
+To generate a public key from a private key, use:
+```sh
+openssl x509 -pubkey -noout -in file_name.pem
+```
+
 This rule is used to inject the claims needed by Dgraph into the JWT token created by Auth0.
 
 ```js
