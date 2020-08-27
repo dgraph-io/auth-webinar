@@ -73,7 +73,7 @@ function App() {
 
   const addNewTodo = (value) =>
     add({
-      variables: { todo: { value: value, completed: false, user: { username: user.email } } },
+      variables: { todo: { value: value, completed: false } },
       update(cache, { data }) {
         const existing = cache.readQuery({ query: GET_TODOS })
         cache.writeQuery({
@@ -135,7 +135,6 @@ function App() {
         clearCompletedTodos={clearCompletedTodos}
         todosTitle="Todos"
       />
-      {logInOut}
     </div>
   )
 }
