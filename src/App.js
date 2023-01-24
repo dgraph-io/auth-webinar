@@ -3,6 +3,7 @@ import { useQuery, useMutation, gql } from "@apollo/client"
 import { Todos } from "react-todomvc"
 
 import "react-todomvc/dist/todomvc.css"
+import {useAuth0} from "@auth0/auth0-react";
 
 const GET_TODOS = gql`
   query {
@@ -64,6 +65,8 @@ function App() {
   const [upd] = useMutation(UPDATE_TODO)
   const [clear] = useMutation(CLEAR_COMPLETED_TODOS)
 
+  const { user, isAuthenticated,loginWithRedirect, logout} = useAuth0();
+
   const { loading, error, data } = useQuery(GET_TODOS)
   if (loading) return <p>Loading</p>
   if (error) {
@@ -72,7 +75,7 @@ function App() {
 
   const addNewTodo = (value) =>
     add({
-      variables: { todo: { value: value, completed: false } },
+      variables: { todo: { value: value, completed: false,user: { username: user.email} } },
       update(cache, { data }) {
         const existing = cache.readQuery({ query: GET_TODOS })
         cache.writeQuery({
@@ -123,9 +126,24 @@ function App() {
         data.deleteTodo.todo.map(t => cache.evict({ id: cache.identify(t) }))
       },
     })
-
-  return (
-    <div>
+    const logInOut = !isAuthenticated ? (
+        <p>
+          <a href="#" onClick={loginWithRedirect}>Log in</a> to use the app
+        </p>
+    ) : (
+        <p>
+          <a
+          href="#"
+            onClick={() => {
+              logout({ returnTo: window.location.origin})
+            }}
+          >
+            Log Out
+          </a>{" "}
+          once you are finished, {user.email}
+        </p>
+    );
+    const myTodo = isAuthenticated ? (
       <Todos
         todos={data.queryTodo}
         addNewTodo={addNewTodo}
@@ -133,7 +151,16 @@ function App() {
         deleteTodo={deleteTodo}
         clearCompletedTodos={clearCompletedTodos}
         todosTitle="Todos"
-      />
+      />) : null;
+
+
+  return (
+    <div>
+      {logInOut}
+      
+      
+      
+
     </div>
   )
 }
