@@ -1,63 +1,10 @@
 import React from "react"
-import { useQuery, useMutation, gql } from "@apollo/client"
+import { useQuery, useMutation } from "@apollo/client"
 import { Todos } from "react-todomvc"
 
 import "react-todomvc/dist/todomvc.css"
 import { useAuth0 } from "@auth0/auth0-react"
-
-const GET_TODOS = gql`
-  query {
-    queryTodo {
-      id
-      value
-      completed
-    }
-  }
-`
-
-const ADD_TODO = gql`
-  mutation addTodo($todo: AddTodoInput!) {
-    addTodo(input: [$todo]) {
-      todo {
-        id
-        value
-        completed
-      }
-    }
-  }
-`
-
-const UPDATE_TODO = gql`
-  mutation updateTodo($id: ID!, $todo: TodoPatch!) {
-    updateTodo(input: { filter: { id: [$id] }, set: $todo }) {
-      todo {
-        id
-        value
-        completed
-      }
-    }
-  }
-`
-
-const DELETE_TODO = gql`
-  mutation deleteTodo($id: ID!) {
-    deleteTodo(filter: { id: [$id] }) {
-      todo {
-        id
-      }
-    }
-  }
-`
-
-const CLEAR_COMPLETED_TODOS = gql`
-  mutation updateTodo {
-    deleteTodo(filter: { completed: true }) {
-      todo {
-        id
-      }
-    }
-  }
-`
+import { GET_TODOS, ADD_TODO, UPDATE_TODO, DELETE_TODO, CLEAR_COMPLETED_TODOS, TOGGLE_TODO } from "./GraphQLData"
 
 function App() {
   const [add] = useMutation(ADD_TODO)
@@ -73,38 +20,38 @@ function App() {
     return <p>`Error: ${error.message}`</p>
   }
 
-  const addNewTodo = (value) =>
+  const addNewTodo = (title) =>
     add({
-      variables: { todo: { value: value, completed: false, user: { username: user.email } } },
+      variables: { task: { title: title, completed: false, user: { username: user.email } } },
       update(cache, { data }) {
         const existing = cache.readQuery({ query: GET_TODOS })
         cache.writeQuery({
           query: GET_TODOS,
           data: {
-            queryTodo: [
-              ...(existing ? existing.queryTodo : []),
-              ...data.addTodo.todo,
+            queryTask: [
+              ...(existing ? existing.queryTask : []),
+              ...data.addTask.task,
             ],
           },
         })
       },
     })
 
-  const updateTodo = (modifiedTodo) =>
+  const updateTodo = (modifiedTask) =>
     upd({
       variables: {
-        id: modifiedTodo.id,
-        todo: {
-          value: modifiedTodo.value,
-          completed: modifiedTodo.completed,
+        id: modifiedTask.id,
+        task: {
+          value: modifiedTask.title,
+          completed: modifiedTask.completed,
         },
       },
       update(cache, { data }) {
-        data.updateTodo.todo.map((t) =>
+        data.updateTask.task.map((t) =>
           cache.modify({
             id: cache.identify(t),
             fields: {
-              value: () => t.value,
+              title: () => t.title,
               completed: () => t.completed,
             },
           })
@@ -116,14 +63,14 @@ function App() {
     del({
       variables: { id },
       update(cache, { data }) {
-        data.deleteTodo.todo.map(t => cache.evict({ id: cache.identify(t) }))
+        data.deleteTask.task.map(t => cache.evict({ id: cache.identify(t) }))
       },
     })
 
   const clearCompletedTodos = () =>
     clear({
       update(cache, { data }) {
-        data.deleteTodo.todo.map(t => cache.evict({ id: cache.identify(t) }))
+        data.deleteTask.task.map(t => cache.evict({ id: cache.identify(t) }))
       },
     })
 
@@ -147,6 +94,7 @@ function App() {
 
   return (
     <div>
+      {logInOut}
       <Todos
         todos={data.queryTodo}
         addNewTodo={addNewTodo}
@@ -155,7 +103,6 @@ function App() {
         clearCompletedTodos={clearCompletedTodos}
         todosTitle="Todos"
       />
-      {logInOut}
     </div>
   )
 }
