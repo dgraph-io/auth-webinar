@@ -9,9 +9,11 @@ import {
 } from "@apollo/client"
 import { setContext } from "@apollo/client/link/context"
 import { Auth0Provider, useAuth0 } from "@auth0/auth0-react"
+import config from "./auth_template.json"
 
 
-const GRAPHQL_ENDPOINT = "https://heady-representative.us-west-2.aws.cloud.dgraph.io/graphql";
+const GRAPHQL_ENDPOINT = "http://localhost:8080/graphql"
+// const GRAPHQL_ENDPOINT = "DGRAPH-CLOUD-ENDPOINT-HERE"
 
 const AuthorizedApolloProvider = ({ children }) => {
   const { isAuthenticated, getIdTokenClaims } = useAuth0();
@@ -44,8 +46,8 @@ const AuthorizedApolloProvider = ({ children }) => {
 
 ReactDOM.render(
   <Auth0Provider
-    domain="webinar-auth.us.auth0.com"
-    clientId="iQPHbVwkAyp7R5mAR0wY8m3uFRBXJCBu"
+    domain={config.domain}
+    clientId={config.clientId}
     redirectUri={window.location.origin}
   >
       <AuthorizedApolloProvider>
