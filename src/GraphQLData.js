@@ -12,7 +12,7 @@ export const GET_TODOS = gql`
 
 export const ADD_TODO = gql`
   mutation addTask($task: AddTaskInput!) {
-    addTodo: addTask(input: [$task]) {
+    addTask(input: [$task]) {
       task {
         id
         value: title
