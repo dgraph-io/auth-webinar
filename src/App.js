@@ -4,7 +4,7 @@ import { Todos } from "react-todomvc"
 
 import "react-todomvc/dist/todomvc.css"
 import { useAuth0 } from "@auth0/auth0-react"
-import { GET_TODOS, ADD_TODO, UPDATE_TODO, DELETE_TODO, CLEAR_COMPLETED_TODOS, TOGGLE_TODO } from "./GraphQLData"
+import { GET_TODOS, ADD_TODO, UPDATE_TODO, DELETE_TODO, CLEAR_COMPLETED_TODOS, gql } from "./GraphQLData"
 
 function App() {
   const [add] = useMutation(ADD_TODO)
@@ -23,21 +23,12 @@ function App() {
   const addNewTodo = (title) =>
     add({
       variables: { task: { title: title, completed: false, user: { username: user.email } } },
-      update(cache, { data }) {
-        const existing = cache.readQuery({ query: GET_TODOS })
-        cache.writeQuery({
-          query: GET_TODOS,
-          data: {
-            queryTask: [
-              ...(existing ? existing.queryTask : []),
-              ...data.addTask.task,
-            ],
-          },
-        })
-      },
+      refetchQueries: [{
+        query: GET_TODOS
+      }]
     })
 
-  const updateTodo = (modifiedTask) =>
+    const updateTodo = (modifiedTask) =>
     upd({
       variables: {
         id: modifiedTask.id,
@@ -73,6 +64,7 @@ function App() {
         data.deleteTask.task.map(t => cache.evict({ id: cache.identify(t) }))
       },
     })
+
 
     const logInOut = !isAuthenticated ? (
       <p>
